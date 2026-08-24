@@ -47,8 +47,8 @@
           <th>Time</th>
         </tr>
       </thead>
-      <tbody>
-        <tr><td colspan="4">Draws for the coming week will be posted here — check back soon.</td></tr>
+      <tbody id="draws-body">
+        <tr><td colspan="4">Loading draws…</td></tr>
       </tbody>
     </table>
   </div>
@@ -58,21 +58,10 @@
 
 <section>
   <div class="wrap">
-    <span class="section-label">Coming Up</span>
-    <h2>Upcoming events</h2>
-    <div class="grid grid-3">
-      <div class="card">
-        <h3>Club Day</h3>
-        <p>Details of upcoming club days and social bowls sessions will appear here.</p>
-      </div>
-      <div class="card">
-        <h3>Club Championships</h3>
-        <p>Dates and entry details for internal club competitions will be posted closer to the season.</p>
-      </div>
-      <div class="card">
-        <h3>Open Day</h3>
-        <p>Watch this space for our next open day for prospective new members.</p>
-      </div>
+    <span class="section-label">Notices</span>
+    <h2>Club notices</h2>
+    <div class="grid grid-3" id="notices-grid">
+      <div class="card"><p>Loading notices…</p></div>
     </div>
   </div>
 </section>
@@ -82,7 +71,7 @@
 <section>
   <div class="wrap">
     <div class="callout">
-      <p><strong>For the club:</strong> update this page each week with current draws, results, and any upcoming social events or tournaments.</p>
+      <p><strong>For the club:</strong> draws and notices on this page update automatically from two shared Google Sheets — just edit the sheet and the site refreshes itself, no website editing needed.</p>
     </div>
   </div>
 </section>
@@ -93,6 +82,85 @@
     <span>521 Main South Road, Hornby, Christchurch 8042 &middot; <a href="mailto:hornbydbc@gmail.com">hornbydbc@gmail.com</a></span>
   </div>
 </footer>
+
+<script>
+  // ---------- Config: published Google Sheet CSV links ----------
+  const DRAWS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQYD35C9WKZp9as0KOrS9NbE6AdPcCb0eFHZnNHFb5IEJsJxfJ9zIrQIwIb2aHBE8h5PLB2LZ9BWwP_/pub?output=csv";
+  const NOTICES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUo4fYyzG_pq7WFv5ZiPD0K8CMVfYetRUgXx_8VDWz4wLmReeQbVeeyQv2__veUmLjwccb4YoG-W6d/pub?output=csv";
+
+  // Minimal CSV parser that handles quoted fields containing commas
+  function parseCSV(text) {
+    const rows = [];
+    let row = [], field = "", inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i], next = text[i + 1];
+      if (inQuotes) {
+        if (c === '"' && next === '"') { field += '"'; i++; }
+        else if (c === '"') { inQuotes = false; }
+        else { field += c; }
+      } else {
+        if (c === '"') { inQuotes = true; }
+        else if (c === ',') { row.push(field); field = ""; }
+        else if (c === '\n' || c === '\r') {
+          if (c === '\r' && next === '\n') i++;
+          row.push(field); field = "";
+          if (row.some(f => f.trim() !== "")) rows.push(row);
+          row = [];
+        } else { field += c; }
+      }
+    }
+    if (field !== "" || row.length) { row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  function escapeHTML(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // ---------- Draws table ----------
+  fetch(DRAWS_CSV_URL)
+    .then(res => res.text())
+    .then(text => {
+      const rows = parseCSV(text).slice(1).filter(r => r.some(c => c.trim() !== "")); // skip header row
+      const tbody = document.getElementById("draws-body");
+      if (rows.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4">Draws for the coming week will be posted here — check back soon.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = rows.map(r => `
+        <tr>
+          <td>${escapeHTML(r[0] || "")}</td>
+          <td>${escapeHTML(r[1] || "")}</td>
+          <td>${escapeHTML(r[2] || "")}</td>
+          <td>${escapeHTML(r[3] || "")}</td>
+        </tr>`).join("");
+    })
+    .catch(() => {
+      document.getElementById("draws-body").innerHTML =
+        '<tr><td colspan="4">Draws couldn\'t be loaded right now — please check back shortly.</td></tr>';
+    });
+
+  // ---------- Notices ----------
+  fetch(NOTICES_CSV_URL)
+    .then(res => res.text())
+    .then(text => {
+      const rows = parseCSV(text).slice(1).filter(r => r.some(c => c.trim() !== "")); // skip header row
+      const grid = document.getElementById("notices-grid");
+      if (rows.length === 0) {
+        grid.innerHTML = '<div class="card"><p>No notices at the moment — check back soon.</p></div>';
+        return;
+      }
+      grid.innerHTML = rows.map(r => `
+        <div class="card"><p>${escapeHTML(r[0] || "")}</p></div>
+      `).join("");
+    })
+    .catch(() => {
+      document.getElementById("notices-grid").innerHTML =
+        '<div class="card"><p>Notices couldn\'t be loaded right now — please check back shortly.</p></div>';
+    });
+</script>
 
 </body>
 </html>
