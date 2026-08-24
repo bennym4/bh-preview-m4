@@ -1,0 +1,20 @@
+name = "bh-members-worker"
+main = "src/worker.js"
+compatibility_date = "2024-09-23"
+
+# Route: point this at the members path once deployed.
+# Draft site (test here first):
+#   bowlshornby.org.nz/bh-preview-m4/members*
+# Live site (only after review):
+#   bowlshornby.org.nz/members*
+#
+# Routes are best set in the Cloudflare dashboard (Workers & Pages > your
+# worker > Triggers > Routes), or uncomment and edit the block below and
+# run `wrangler deploy` once the zone is added to your Cloudflare account.
+#
+# [[routes]]
+# pattern = "bowlshornby.org.nz/members*"
+# zone_name = "bowlshornby.org.nz"
+
+# Secrets (CLUB_PASSWORD, SESSION_SECRET) are NOT set here.
+# Set them with `wrangler secret put <NAME>` — see README.md.
