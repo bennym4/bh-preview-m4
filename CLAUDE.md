@@ -71,14 +71,6 @@ CSV URLs are already in `news.html`'s `<script>` block — don't ask for them ag
 - Real club/green photos (currently CSS placeholder boxes)
 - Membership fees (join.html has a placeholder note flagging this)
 
-## Members-only login
-
-The plan for the members-only login lives in MEMBERS-LOGIN-PLAN.md — read it before
-building anything login-related. Key rules: work in this draft repo only; use a
-Cloudflare Worker with ONE shared club password (NOT Cloudflare Access); never put the
-password or any secret in this repo; private pages are served by the Worker so they are
-never publicly downloadable. Members-page copy is in members-page-copy.md.
-
 ## House style for any new copy
 Warm, community-club tone. Not corporate. Short sentences. This club is
 run by volunteers for a small NZ town — write like it.
