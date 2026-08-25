@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>News &amp; Events | Bowls Hornby</title>
-<meta name="description" content="Upcoming events, club news, and draws for Bowls Hornby.">
+<meta name="description" content="Upcoming events and club news for Bowls Hornby.">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -30,32 +30,10 @@
 <section class="hero rink-lines">
   <div class="wrap hero-inner">
     <span class="eyebrow">What's On</span>
-    <h1>News, events, and this week's draws.</h1>
-    <p class="lede">Keep up with club fixtures, results, and upcoming social events at Bowls Hornby.</p>
+    <h1>News and events.</h1>
+    <p class="lede">Keep up with club news and upcoming social events at Bowls Hornby.</p>
   </div>
 </section>
-
-<section>
-  <div class="wrap">
-    <span class="section-label">This Week</span>
-    <h2>Draws</h2>
-    <table class="draws-table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Event</th>
-          <th>Rink</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <tbody id="draws-body">
-        <tr><td colspan="4">Loading draws…</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<hr class="divider">
 
 <section>
   <div class="wrap">
@@ -72,7 +50,7 @@
 <section>
   <div class="wrap">
     <div class="callout">
-      <p><strong>For the club:</strong> draws and notices on this page update automatically from two shared Google Sheets — just edit the sheet and the site refreshes itself, no website editing needed.</p>
+      <p><strong>For the club:</strong> notices on this page update automatically from a shared Google Sheet — just edit the sheet and the site refreshes itself, no website editing needed.</p>
     </div>
   </div>
 </section>
@@ -85,8 +63,7 @@
 </footer>
 
 <script>
-  // ---------- Config: published Google Sheet CSV links ----------
-  const DRAWS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQYD35C9WKZp9as0KOrS9NbE6AdPcCb0eFHZnNHFb5IEJsJxfJ9zIrQIwIb2aHBE8h5PLB2LZ9BWwP_/pub?output=csv";
+  // ---------- Config: published Google Sheet CSV link ----------
   const NOTICES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUo4fYyzG_pq7WFv5ZiPD0K8CMVfYetRUgXx_8VDWz4wLmReeQbVeeyQv2__veUmLjwccb4YoG-W6d/pub?output=csv";
 
   // Minimal CSV parser that handles quoted fields containing commas
@@ -119,29 +96,6 @@
     div.textContent = str;
     return div.innerHTML;
   }
-
-  // ---------- Draws table ----------
-  fetch(DRAWS_CSV_URL)
-    .then(res => res.text())
-    .then(text => {
-      const rows = parseCSV(text).slice(1).filter(r => r.some(c => c.trim() !== "")); // skip header row
-      const tbody = document.getElementById("draws-body");
-      if (rows.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4">Draws for the coming week will be posted here — check back soon.</td></tr>';
-        return;
-      }
-      tbody.innerHTML = rows.map(r => `
-        <tr>
-          <td>${escapeHTML(r[0] || "")}</td>
-          <td>${escapeHTML(r[1] || "")}</td>
-          <td>${escapeHTML(r[2] || "")}</td>
-          <td>${escapeHTML(r[3] || "")}</td>
-        </tr>`).join("");
-    })
-    .catch(() => {
-      document.getElementById("draws-body").innerHTML =
-        '<tr><td colspan="4">Draws couldn\'t be loaded right now — please check back shortly.</td></tr>';
-    });
 
   // ---------- Notices ----------
   fetch(NOTICES_CSV_URL)

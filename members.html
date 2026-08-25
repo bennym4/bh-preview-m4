@@ -30,18 +30,51 @@
 <section class="hero rink-lines">
   <div class="wrap hero-inner">
     <span class="eyebrow">For Members</span>
-    <h1>Members area — coming soon.</h1>
-    <p class="lede">This section is being built out. In time it will hold club documents, contacts, and member-only updates.</p>
+    <h1>Members area.</h1>
+    <p class="lede">This week's draws, plus member-only sections being built out. In time this area will sit behind a members' login.</p>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <div class="holding-panel">
-      <span class="eyebrow">Under Construction</span>
-      <h2>We're setting this area up</h2>
-      <p>Once ready, members will find things like committee contacts, meeting minutes, and club documents here. For now, if you need something urgently, get in touch directly.</p>
-      <a class="btn btn-primary" href="contact.html">Contact the Club</a>
+    <span class="section-label">This Week</span>
+    <h2>Draws</h2>
+    <table class="draws-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Event</th>
+          <th>Rink</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody id="draws-body">
+        <tr><td colspan="4">Loading draws…</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section>
+  <div class="wrap">
+    <span class="section-label">Coming Soon</span>
+    <h2>Inter Club</h2>
+    <div class="callout">
+      <p><strong>[Placeholder — to be built]</strong> This section will let members view interclub teams and tick off their name, record player unavailability, and see results. Some of it will require the members' login. Reviewers: this space is intentional; the interactive tools come after the login is live.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section>
+  <div class="wrap">
+    <span class="section-label">Coming Soon</span>
+    <h2>Club Championship</h2>
+    <div class="callout">
+      <p><strong>[Placeholder — to be built]</strong> This section will hold online championship entries, event lists (men's, women's, and mixed), player handicaps, and policies. Reviewers: this space is intentional; the entry system comes later.</p>
     </div>
   </div>
 </section>
@@ -51,7 +84,7 @@
 <section>
   <div class="wrap">
     <span class="section-label">What's Planned</span>
-    <h2>What will live here</h2>
+    <h2>Also planned for this area</h2>
     <div class="grid grid-3">
       <div class="card">
         <h3>Committee &amp; Contacts</h3>
@@ -75,6 +108,66 @@
     <span>521 Main South Road, Hornby, Christchurch 8042 &middot; <a href="mailto:hornbydbc@gmail.com">hornbydbc@gmail.com</a></span>
   </div>
 </footer>
+
+<script>
+  // ---------- Config: published Google Sheet CSV link ----------
+  // Draws data is pulled live from the shared Google Sheet — never hardcoded here.
+  const DRAWS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQYD35C9WKZp9as0KOrS9NbE6AdPcCb0eFHZnNHFb5IEJsJxfJ9zIrQIwIb2aHBE8h5PLB2LZ9BWwP_/pub?output=csv";
+
+  // Minimal CSV parser that handles quoted fields containing commas
+  function parseCSV(text) {
+    const rows = [];
+    let row = [], field = "", inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i], next = text[i + 1];
+      if (inQuotes) {
+        if (c === '"' && next === '"') { field += '"'; i++; }
+        else if (c === '"') { inQuotes = false; }
+        else { field += c; }
+      } else {
+        if (c === '"') { inQuotes = true; }
+        else if (c === ',') { row.push(field); field = ""; }
+        else if (c === '\n' || c === '\r') {
+          if (c === '\r' && next === '\n') i++;
+          row.push(field); field = "";
+          if (row.some(f => f.trim() !== "")) rows.push(row);
+          row = [];
+        } else { field += c; }
+      }
+    }
+    if (field !== "" || row.length) { row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  function escapeHTML(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // ---------- Draws table ----------
+  fetch(DRAWS_CSV_URL)
+    .then(res => res.text())
+    .then(text => {
+      const rows = parseCSV(text).slice(1).filter(r => r.some(c => c.trim() !== "")); // skip header row
+      const tbody = document.getElementById("draws-body");
+      if (rows.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4">Draws for the coming week will be posted here — check back soon.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = rows.map(r => `
+        <tr>
+          <td>${escapeHTML(r[0] || "")}</td>
+          <td>${escapeHTML(r[1] || "")}</td>
+          <td>${escapeHTML(r[2] || "")}</td>
+          <td>${escapeHTML(r[3] || "")}</td>
+        </tr>`).join("");
+    })
+    .catch(() => {
+      document.getElementById("draws-body").innerHTML =
+        '<tr><td colspan="4">Draws couldn\'t be loaded right now — please check back shortly.</td></tr>';
+    });
+</script>
 
 </body>
 </html>
