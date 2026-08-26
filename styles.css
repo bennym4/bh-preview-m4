@@ -453,3 +453,22 @@ input:focus, textarea:focus {
   opacity: 0.85;
   cursor: not-allowed;
 }
+
+/* ---- Club photo figure ---- */
+.club-photo {
+  margin: 24px 0 0;
+}
+.club-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius);
+  border-top: 3px solid var(--gold);
+}
+.club-photo figcaption {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-top: 10px;
+}
