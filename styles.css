@@ -1,0 +1,474 @@
+/* ===========================================================
+   Bowls Hornby — shared styles
+   Palette: deep turf green, clubhouse maroon, brass gold, parchment
+   =========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --green-deep: #1E4630;
+  --green-mid: #3F6B4A;
+  --green-pale: #E4ECE3;
+  --parchment: #F2EFE6;
+  --maroon: #8A2E35;
+  --maroon-dark: #6E232A;
+  --gold: #C99A2E;
+  --ink: #26291F;
+  --ink-soft: #55574B;
+  --white: #FFFFFF;
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Public Sans', -apple-system, sans-serif;
+  --font-mono: 'Space Mono', monospace;
+
+  --radius: 4px;
+  --max-width: 1080px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--parchment);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+a { color: inherit; }
+
+img { max-width: 100%; display: block; }
+
+.wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---------- Rink lines: signature motif ---------- */
+.rink-lines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(201, 154, 46, 0.35) 0px,
+    rgba(201, 154, 46, 0.35) 1px,
+    transparent 1px,
+    transparent 64px
+  );
+}
+
+.divider {
+  height: 1px;
+  background: repeating-linear-gradient(
+    to right,
+    var(--gold) 0px, var(--gold) 10px,
+    transparent 10px, transparent 18px
+  );
+  border: none;
+  margin: 0;
+}
+
+/* ---------- Header / Nav ---------- */
+.site-header {
+  background: var(--green-deep);
+  color: var(--white);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 3px solid var(--gold);
+}
+
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--white);
+}
+
+.brand-mark {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+
+.brand-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.01em;
+}
+
+nav.main-nav {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+nav.main-nav a {
+  text-decoration: none;
+  color: var(--white);
+  font-size: 14.5px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  transition: background 0.15s ease;
+}
+
+nav.main-nav a:hover,
+nav.main-nav a:focus-visible {
+  background: rgba(255,255,255,0.12);
+  outline: none;
+}
+
+nav.main-nav a.active {
+  background: var(--maroon);
+}
+
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  background: var(--green-deep);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-inner {
+  padding: 72px 24px 88px;
+  position: relative;
+  z-index: 2;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 18px;
+  display: inline-block;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 5.5vw, 58px);
+  line-height: 1.06;
+  font-weight: 700;
+  max-width: 14ch;
+  margin: 0 0 20px;
+}
+
+.hero p.lede {
+  font-size: 18px;
+  max-width: 46ch;
+  color: rgba(255,255,255,0.86);
+  margin: 0 0 32px;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 13px 26px;
+  border-radius: var(--radius);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.15s ease;
+}
+
+.btn-primary {
+  background: var(--maroon);
+  color: var(--white);
+}
+.btn-primary:hover { background: var(--maroon-dark); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--white);
+  border-color: rgba(255,255,255,0.5);
+}
+.btn-ghost:hover { border-color: var(--white); }
+
+.btn-row { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* ---------- Sections ---------- */
+section { padding: 64px 0; }
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  margin-bottom: 10px;
+  display: block;
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.4vw, 36px);
+  font-weight: 700;
+  margin: 0 0 20px;
+  color: var(--green-deep);
+}
+
+h3 {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--green-deep);
+  margin: 0 0 10px;
+}
+
+p { color: var(--ink-soft); margin: 0 0 16px; }
+
+/* ---------- Cards / grid ---------- */
+.grid {
+  display: grid;
+  gap: 24px;
+}
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+@media (max-width: 760px) {
+  .grid-3, .grid-2 { grid-template-columns: 1fr; }
+}
+
+.card {
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-top: 3px solid var(--gold);
+  border-radius: var(--radius);
+  padding: 26px;
+}
+
+.card p:last-child { margin-bottom: 0; }
+
+/* ---------- Callout banner ---------- */
+.callout {
+  background: var(--green-pale);
+  border-left: 4px solid var(--maroon);
+  border-radius: var(--radius);
+  padding: 22px 26px;
+}
+.callout p { color: var(--ink); margin: 0; }
+.callout strong { color: var(--maroon); }
+
+/* ---------- Placeholder image (no real photos yet) ---------- */
+.placeholder-photo {
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius);
+  background:
+    repeating-linear-gradient(
+      to right,
+      var(--green-mid) 0px, var(--green-mid) 78px,
+      #375f42 78px, #375f42 80px
+    );
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+.placeholder-photo::after {
+  content: attr(data-label);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+  background: rgba(30,70,48,0.55);
+  padding: 8px 16px;
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 999px;
+}
+
+/* ---------- Info list (contact details, etc.) ---------- */
+.info-list dt {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  margin-top: 18px;
+}
+.info-list dt:first-child { margin-top: 0; }
+.info-list dd {
+  margin: 4px 0 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background: var(--green-deep);
+  color: rgba(255,255,255,0.75);
+  padding: 40px 0 28px;
+  margin-top: 40px;
+  border-top: 3px solid var(--gold);
+}
+.site-footer .wrap {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 14px;
+}
+.site-footer a { text-decoration: underline; }
+
+/* ---------- Draws / fixtures table ---------- */
+.draws-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.draws-table th, .draws-table td {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 15px;
+}
+.draws-table th {
+  background: var(--green-deep);
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+.draws-table tr:nth-child(even) td { background: var(--green-pale); }
+.draws-table td { color: var(--ink); border-top: 1px solid rgba(0,0,0,0.06); }
+
+/* ---------- Holding / placeholder panel (Members area) ---------- */
+.holding-panel {
+  background: var(--white);
+  border: 1px dashed var(--gold);
+  border-radius: var(--radius);
+  padding: 40px 32px;
+  text-align: center;
+}
+.holding-panel .eyebrow { color: var(--maroon); }
+.holding-panel h2 { margin-bottom: 12px; }
+.holding-panel p { max-width: 52ch; margin-left: auto; margin-right: auto; }
+
+/* ---------- Form (Contact page) ---------- */
+form.contact-form {
+  display: grid;
+  gap: 18px;
+  max-width: 520px;
+}
+label {
+  font-weight: 600;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+input, textarea {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 15px;
+  padding: 11px 13px;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--ink);
+}
+input:focus, textarea:focus {
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
+  border-color: var(--gold);
+}
+
+/* ---- Tournament entry form ---- */
+.entry-form {
+  max-width: 460px;
+  margin-top: 8px;
+}
+.entry-form .field {
+  display: block;
+  margin-bottom: 16px;
+}
+.entry-form .field-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--green-deep);
+  margin-bottom: 6px;
+}
+.entry-form select {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 15px;
+  padding: 11px 13px;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--ink);
+}
+.entry-form .req { color: var(--maroon); }
+.entry-form .form-note {
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-top: 10px;
+}
+.entry-form input:disabled,
+.entry-form select:disabled,
+.entry-form button:disabled {
+  opacity: 0.85;
+  cursor: not-allowed;
+}
+
+/* ---- Club photo figure ---- */
+.club-photo {
+  margin: 24px 0 0;
+}
+.club-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius);
+  border-top: 3px solid var(--gold);
+}
+.club-photo figcaption {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-top: 10px;
+}
