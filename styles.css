@@ -152,7 +152,7 @@ a:focus-visible, button:focus-visible {
 
 /* ---------- Hero ---------- */
 .hero {
-  background: var(--green-deep);
+  background: var(--maroon);
   color: var(--white);
   position: relative;
   overflow: hidden;
@@ -331,7 +331,7 @@ p { color: var(--ink-soft); margin: 0 0 16px; }
 
 /* ---------- Footer ---------- */
 .site-footer {
-  background: var(--green-deep);
+  background: var(--maroon);
   color: rgba(255,255,255,0.75);
   padding: 40px 0 28px;
   margin-top: 40px;
