@@ -49,6 +49,55 @@ Keep each request to **one small change**. Small changes are fast, easy to see, 
 
 ---
 
+## Quick changes vs big changes (important)
+
+Not all changes are equal. Handle them differently.
+
+### Quick changes — safe to do live in front of the crowd
+Small text edits: wording, a new line, fixing a typo, swapping a caption.
+These are fast, easy to see, and easy to undo. Just describe them and let Claude Code
+commit straight to main as normal.
+
+### Big changes — DON'T rush these live
+New pages, colour changes, new sections, adding photos, moving things around.
+These touch more of the site and are easy to get slightly wrong on the first try —
+stressful to fix with people watching.
+
+**For any big change, add this to the end of your request:**
+
+> ...Show me before committing — don't push yet.
+
+That gives you a pause to check it before it goes live.
+
+**Better still:** collect big requests as a **list** on the day ("new events page",
+"make it more maroon") and build them properly afterwards, calmly, with previews.
+Keep the live session to quick text tweaks.
+
+### Prompts for big changes (use "show me before committing")
+
+**New page:**
+> Create a new page called `events.html` in the same style as the existing pages
+> (same header, nav, footer, styles.css). Hero titled "…", one section saying "…".
+> Add an "Events" link to the nav on every page after "News & Events".
+> Show me before committing — don't push yet.
+
+**Whole-site colour change:**
+> In styles.css, change the hero background from maroon to [colour]. Show me the exact
+> rule you're changing and let me see it before committing — don't push yet.
+
+**One element's colour:**
+> Make the primary buttons [colour] instead of maroon. Show me before committing.
+
+**Add a section to a page:**
+> On the [page] page, add a new section after [location] with heading "…" and this text:
+> "…". Match the existing section styling. Show me before committing.
+
+**Add a photo:**
+> On the [page] page, replace the "[placeholder label]" placeholder with the image at
+> images/[filename].jpg, keeping the same caption style. Show me before committing.
+
+---
+
 ## If something goes wrong — undo / roll back
 
 **Quick undo (last change):** just say to Claude Code:
